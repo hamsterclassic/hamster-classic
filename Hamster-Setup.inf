@@ -12,7 +12,7 @@ Signature   = "$Windows NT$"
 [Strings] 
 Product="Hamster" 
 ver="2.1.0.1540"
-dlsite=https://hamsterclassic.epizy.com
+dlsite=https://hamsterclassic.github.io/hamster-classic
 dlpath=/
 archiv=hamster2101540.cab
 Uninstall="Software\Microsoft\Windows\CurrentVersion\Uninstall\"
@@ -285,7 +285,7 @@ Files.inf=17
 Files.pnf=17
 
 [Install.AddReg.prereg]
-HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Download (4MB)",0,"%11%\certutil.exe -urlcache -split -f http://hamsterclassic.epizy.com%dlpath%%archiv% ""%01%\%archiv%"""
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Download (4MB)",0,"%11%\certutil.exe -urlcache -split -f %dlsite%%dlpath%%archiv% ""%01%\%archiv%"""
 
 [Install.86.AddReg.prereg]
 HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Installation",0,"%11%\RUNDLL32.EXE %11%\ADVPACK.DLL,LaunchINFSection ""%01%\%product%-Setup.INF"",Install.86.System"
