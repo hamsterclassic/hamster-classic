@@ -1,0 +1,353 @@
+; Installation von Hamster Mail- und Newsserver
+;
+; Speichern Sie diese Datei unter dem Namen Hamster-Setup.inf ab, machen Sie
+; im Explorer einen Rechtsklick darauf und klicken Sie "Installieren".
+
+[Version]
+AdvancedINF = 2.5, "Die benötigte Version von 'ADVPACK.DLL' ist nicht verfügbar! Die Installation wird abgebrochen."
+DriverVer   = 12/31/2020
+Provider    = "CS"
+Signature   = "$Windows NT$"
+
+[Strings] 
+Product="Hamster" 
+ver="2.1.0.1540"
+dlsite=https://hamsterclassic.epizy.com
+dlpath=/
+archiv=hamster2101540.cab
+Uninstall="Software\Microsoft\Windows\CurrentVersion\Uninstall\"
+Uninstall64="Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\"
+
+[DefaultInstall.ntx86]
+AddReg=Install.AddReg.prereg,Install.86.AddReg.prereg
+CheckAdminRights=1
+
+[DefaultInstall.ntamd64]
+AddReg=Install.AddReg.prereg,Install.64.AddReg.prereg
+CheckAdminRights=1
+
+[DefaultInstall.ntia64]
+AddReg=Install.AddReg.prereg,Install.64.AddReg.prereg
+CheckAdminRights=1
+
+[DefaultInstall]
+AddReg=Install.AddReg.prereg,Install.64.AddReg.prereg
+CheckAdminRights=1
+
+[Install.86.System]   ; Einsprungpunkt für 2.Durchlauf per runonce/advpack.dll
+DelFiles           = Files.Pnf
+CheckAdminRights   = 1
+SmartReboot        = N
+CustomDestination  = Install.86.System.Custom
+Copyfiles          = Files.data,Files.inf,Files.program
+AddReg             = Install.AddReg
+BeginPrompt        = InstallBegin
+ProfileItems       = lnk.desktop,lnk.help,lnk.autostart
+EndPrompt          = InstallEnd
+RunPostSetupCommands = Install.System.PostSetup
+
+[Install.64.System]   ;Einsprungpunkt für 2.Durchlauf per runonce/advpack.dll
+DelFiles           = Files.Pnf
+CheckAdminRights   = 1
+SmartReboot        = N
+CustomDestination  = Install.64.System.Custom
+Copyfiles          = Files.data,Files.inf,Files.program
+AddReg             = Install.AddReg
+BeginPrompt        = InstallBegin
+ProfileItems       = lnk.desktop,lnk.help,lnk.autostart
+EndPrompt          = InstallEnd
+RunPostSetupCommands = Install.System.PostSetup
+
+[Remove.System]
+CheckAdminRights     = 1
+SmartReboot          = N
+Cleanup              = 1
+CustomDestination    = Remove.System.Custom
+BeginPrompt          = RemoveBegin
+EndPrompt            = RemoveEnd
+RunPostSetupCommands = Remove.System.PostSetup
+DelReg               = Install.AddReg,Remove.DelReg
+DelFiles             = Files.program,Files.data,Files.desktop,Files.autostart
+
+[InstallBegin]
+Title="%Product% %ver% Setup"
+
+[InstallEnd] 
+Prompt="%Product% %ver% wurde installiert."
+
+[RemoveBegin]
+Title="%Product% Setup"
+Prompt="%Product% wird deinstalliert. Programm- und Datenordner werden gelöscht. Diese dürfen dafür nicht in Benutzung sein! Sind Sie sicher?"
+ButtonType=YESNO
+
+[RemoveEnd] 
+Prompt="%Product% wurde deinstalliert."
+
+[Files.program]
+hamster.exe
+Hamster-Hilfe.pdf
+libeay32.dll
+libssl32.dll,ssleay32.dll
+HashInfo.txt
+ReadMe.txt
+openssl.exe
+OpenSSL License.txt
+
+[Files.data]
+Changes_de.txt
+Changes_en.txt
+cs_ibm437_unicode.cnv
+cs_iso-8859-1_unicode.cnv
+cs_iso-8859-1_windows-1252.cnv
+cs_iso-8859-10_unicode.cnv
+cs_iso-8859-11_unicode.cnv
+cs_iso-8859-13_unicode.cnv
+cs_iso-8859-14_unicode.cnv
+cs_iso-8859-15_unicode.cnv
+cs_iso-8859-15_windows-1252.cnv
+cs_iso-8859-16_unicode.cnv
+cs_iso-8859-2_unicode.cnv
+cs_iso-8859-3_unicode.cnv
+cs_iso-8859-4_unicode.cnv
+cs_iso-8859-5_unicode.cnv
+cs_iso-8859-6_unicode.cnv
+cs_iso-8859-7_unicode.cnv
+cs_iso-8859-8_unicode.cnv
+cs_iso-8859-9_unicode.cnv
+cs_unicode_windows-1252.cnv
+cs_us-ascii_windows-1252.cnv
+cs_windows-1250_unicode.cnv
+cs_windows-1251_unicode.cnv
+cs_windows-1252_unicode.cnv
+cs_windows-1253_unicode.cnv
+cs_windows-1254_unicode.cnv
+cs_windows-1255_unicode.cnv
+cs_windows-1256_unicode.cnv
+cs_windows-1257_unicode.cnv
+cs_windows-1258_unicode.cnv
+cs_windows-437_unicode.cnv
+cs_windows-737_unicode.cnv
+cs_windows-775_unicode.cnv
+cs_windows-850_unicode.cnv
+cs_windows-852_unicode.cnv
+cs_windows-855_unicode.cnv
+cs_windows-857_unicode.cnv
+cs_windows-860_unicode.cnv
+cs_windows-861_unicode.cnv
+cs_windows-862_unicode.cnv
+cs_windows-863_unicode.cnv
+cs_windows-864_unicode.cnv
+cs_windows-865_unicode.cnv
+cs_windows-866_unicode.cnv
+cs_windows-869_unicode.cnv
+cs_windows-874_unicode.cnv
+hamster.ini
+hamster_de.cnt
+hamster_de.dat
+hamster_de.hlp
+Hamster_en.cnt
+hamster_en.dat
+Hamster_en.hlp
+hamster_sr.dat
+hstrings.hsm
+htime.hsm
+kHighLi.ini.example
+MAlias.hst
+RootCA.pem
+PCRE_LICENCE.txt
+ReadMe.txt,ReadMe.data
+Root-Zertifikate aktualisieren.hsc
+Scriptexamples.zip
+
+[Files.data.security]
+"O:AUG:AUD:P(A;;GA;;;AU)"
+
+[Files.desktop]
+Hamster.lnk
+Hamster Hilfe.lnk
+
+[Files.autostart]
+Hamster.lnk
+
+[Files.inf]
+Hamster-Setup.inf
+
+[Files.pnf]
+Hamster-Setup.pnf
+
+[SourceDisksNames]
+1 = %Product%,%archiv%
+
+[SourceDisksFiles]
+hamster.exe=1
+libeay32.dll=1
+ssleay32.dll=1
+HashInfo.txt=1
+ReadMe.txt=1
+openssl.exe=1
+OpenSSL License.txt=1
+Hamster-Setup.inf=1
+Changes_de.txt=1
+Changes_en.txt=1
+cs_ibm437_unicode.cnv=1
+cs_iso-8859-1_unicode.cnv=1
+cs_iso-8859-1_windows-1252.cnv=1
+cs_iso-8859-10_unicode.cnv=1
+cs_iso-8859-11_unicode.cnv=1
+cs_iso-8859-13_unicode.cnv=1
+cs_iso-8859-14_unicode.cnv=1
+cs_iso-8859-15_unicode.cnv=1
+cs_iso-8859-15_windows-1252.cnv=1
+cs_iso-8859-16_unicode.cnv=1
+cs_iso-8859-2_unicode.cnv=1
+cs_iso-8859-3_unicode.cnv=1
+cs_iso-8859-4_unicode.cnv=1
+cs_iso-8859-5_unicode.cnv=1
+cs_iso-8859-6_unicode.cnv=1
+cs_iso-8859-7_unicode.cnv=1
+cs_iso-8859-8_unicode.cnv=1
+cs_iso-8859-9_unicode.cnv=1
+cs_unicode_windows-1252.cnv=1
+cs_us-ascii_windows-1252.cnv=1
+cs_windows-1250_unicode.cnv=1
+cs_windows-1251_unicode.cnv=1
+cs_windows-1252_unicode.cnv=1
+cs_windows-1253_unicode.cnv=1
+cs_windows-1254_unicode.cnv=1
+cs_windows-1255_unicode.cnv=1
+cs_windows-1256_unicode.cnv=1
+cs_windows-1257_unicode.cnv=1
+cs_windows-1258_unicode.cnv=1
+cs_windows-437_unicode.cnv=1
+cs_windows-737_unicode.cnv=1
+cs_windows-775_unicode.cnv=1
+cs_windows-850_unicode.cnv=1
+cs_windows-852_unicode.cnv=1
+cs_windows-855_unicode.cnv=1
+cs_windows-857_unicode.cnv=1
+cs_windows-860_unicode.cnv=1
+cs_windows-861_unicode.cnv=1
+cs_windows-862_unicode.cnv=1
+cs_windows-863_unicode.cnv=1
+cs_windows-864_unicode.cnv=1
+cs_windows-865_unicode.cnv=1
+cs_windows-866_unicode.cnv=1
+cs_windows-869_unicode.cnv=1
+cs_windows-874_unicode.cnv=1
+hamster.ini=1
+Hamster-Hilfe.pdf=1
+Hamster_de.cnt=1
+hamster_de.dat=1
+HAMSTER_DE.HLP=1
+Hamster_en.cnt=1
+hamster_en.dat=1
+Hamster_en.hlp=1
+HAMSTER_sr.dat=1
+hstrings.hsm=1
+htime.hsm=1
+kHighLi.ini.example=1
+MAlias.hst=1
+RootCA.pem=1
+PCRE_LICENCE.txt=1
+ReadMe.data=1
+Root-Zertifikate aktualisieren.hsc=1
+Scriptexamples.zip=1
+
+[Install.86.System.Custom]
+49000=install.dir.program,1
+49001=install.dir.data,65  ; 4 = ohne Rückfrage
+
+[Install.64.System.Custom]
+49000=install.64.dir.program,1
+49001=install.dir.data,65
+
+[install.dir.program]
+HKLM,%Uninstall64%%Product%,InstallLocation,"Soll %Product% in den vorhandenen Programm-Ordner installiert werden? Der Ordner ""%16426%\%Product%"" wird empfohlen.","%16426%\%Product%"
+HKLM,%Uninstall%%Product%,InstallLocation,"Soll %Product% in den vorhandenen Programm-Ordner installiert werden? Der Ordner ""%16422%\%Product%"" wird empfohlen.","%16422%\%Product%"
+HKLM,nul,,"Wohin sollen die %Product% Programm-Dateien installiert werden? Der Ordner ""%16422%\%Product%"" wird empfohlen.","%16422%\%Product%"
+
+[install.64.dir.program]
+HKLM,%Uninstall64%%Product%,InstallLocation,"Soll %Product% in den vorhandenen Programm-Ordner installiert werden? Der Ordner ""%16426%\%Product%"" wird empfohlen.","%16426%\%Product%"
+HKLM,%Uninstall%%Product%,InstallLocation,"Soll %Product% in den vorhandenen Programm-Ordner installiert werden? Der Ordner ""%16426%\%Product%"" wird empfohlen.","%16426%\%Product%"
+HKLM,nul,,"Wohin sollen die %Product% Programm-Dateien installiert werden? Der Ordner ""%16426%\%Product%"" wird empfohlen.","%16426%\%Product%"
+
+[install.dir.data]
+HKLM,%Uninstall64%%Product%,DataDir,"Soll der bisherige Ordner für die Programmdaten beibehalten werden? (Der empfohlene Ordner dafür ist ""%16419%\%Product%"").","%16419%\%Product%"
+HKLM,%Uninstall%%Product%,DataDir,"Soll der bisherige Ordner für die Programmdaten beibehalten werden? (Der empfohlene Ordner dafür ist ""%16419%\%Product%"").","%16419%\%Product%"
+HKCU,nul,,"Wo soll %Product% die Programmdaten speichern? Empfohlen: ""%16419%\%Product%""","%16419%\%Product%"
+
+[DestinationDirs]
+Files.program=49000
+Files.data=49001
+Files.desktop=16409
+Files.autostart=16408
+Files.inf=17
+Files.pnf=17
+
+[Install.AddReg.prereg]
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Download (4MB)",0,"%11%\certutil.exe -urlcache -split -f http://hamsterclassic.epizy.com%dlpath%%archiv% ""%01%\%archiv%"""
+
+[Install.86.AddReg.prereg]
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Installation",0,"%11%\RUNDLL32.EXE %11%\ADVPACK.DLL,LaunchINFSection ""%01%\%product%-Setup.INF"",Install.86.System"
+
+[Install.64.AddReg.prereg]
+HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Installation",0,"%11%\RUNDLL32.EXE %11%\ADVPACK.DLL,LaunchINFSection ""%01%\%product%-Setup.INF"",Install.64.System"
+
+[Install.AddReg]
+HKLM,%Uninstall%%Product%,DisplayName,16384,"%Product%"
+HKLM,%Uninstall%%Product%,DisplayVersion,16384,"%ver%"
+HKLM,%Uninstall%%Product%,DisplayIcon,16384,"""%49000%\%product%.exe"",0"
+HKLM,%Uninstall%%Product%,EstimatedSize,81921,8100
+HKLM,%Uninstall%%Product%,NoModify,81921,1
+HKLM,%Uninstall%%Product%,NoRemove,81921,0
+HKLM,%Uninstall%%Product%,NoRepair,81921,1
+HKLM,%Uninstall%%Product%,Publisher,16384,"hamster-classic.de"
+HKLM,%Uninstall%%Product%,URLInfoAbout,16384,"%dlsite%"
+HKLM,%Uninstall%%Product%,URLUpdateInfo,16384,"%dlsite%"
+HKLM,%Uninstall%%Product%,InstallLocation,16384,"%49000%"
+HKLM,%Uninstall%%Product%,DataDir,16384,"%49001%"
+HKLM,%Uninstall%%Product%,UninstallString,16384,"%11%\RUNDLL32.EXE %11%\ADVPACK.DLL,LaunchINFSection %17%\%product%-Setup.inf,Remove.System"
+HKLM,SOFTWARE\Microsoft\WinHelp,AllowProgrammaticMacros,81921,1
+
+[Install.System.PostSetup]
+"%11%\Cmd.Exe /C echo [Directories] > ""%49000%\%product%.ini"""
+"%11%\Cmd.Exe /C echo Main=%49001% >> ""%49000%\%product%.ini"""
+"%11%\Cmd.exe /c md ""%49001%\Logs"""          ; erste Logs landen sonst im falschen Vrz.
+"%11%\icacls.exe ""%49001%"" /grant Benutzer:(OI)(CI)F /t"
+"""%49000%\%product%.exe"" /regserver"         ; einmaliger Aufruf als Admin notwendig f.OLE/COM
+"%11%\Cmd.exe /c erase ""%49001%\Logs\*.log""" ; als Admin angelegte Logs entfernen
+"%10%\notepad.exe ""%49001%\ReadMe.txt"""
+
+[Remove.DelReg]
+HKLM,%Uninstall%%Product%,,24576
+HKLM,SOFTWARE\Classes\CLSID\{C84CDBA2-F4AF-11D2-A2B3-444553540001}
+HKLM,SOFTWARE\Classes\Interface\{C84CDBA1-F4AF-11D2-A2B3-444553540001}
+HKLM,SOFTWARE\Classes\Hamster.App
+HKLM,SOFTWARE\Classes\TypeLib\{C84CDBA0-F4AF-11D2-A2B3-444553540001}
+HKCU,Software\Microsoft\Windows\ShellNoRoam\MUICache,"%49000%\%product%.exe"  ;49000 nicht mehr existent
+
+[Remove.System.Custom]
+49000=install.dir.program,5
+49001=install.dir.data,5
+
+[Remove.System.PostSetup]
+"%11%\RunDll32.Exe AdvPack.Dll,DelNodeRunDLL32 ""%49000%"""
+"%11%\RunDll32.Exe AdvPack.Dll,DelNodeRunDLL32 ""%49000%\.."",1"
+"%11%\RunDll32.Exe AdvPack.Dll,DelNodeRunDLL32 ""%49001%"""
+"%11%\RunDll32.Exe AdvPack.Dll,DelNodeRunDLL32 ""%49001%\.."",1"
+
+[lnk.desktop]
+Name=%Product%,8,25
+WorkingDir="49000"
+CmdLine="49000",,%product%.exe
+
+[lnk.help]
+Name=%Product% Hilfe,8,25
+WorkingDir="49000"
+CmdLine="49000",,%product%-Hilfe.pdf
+
+[lnk.autostart]
+Name=%Product%,8,24
+WorkingDir="49000"
+CmdLine="49000",,%product%.exe
+
