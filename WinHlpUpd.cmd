@@ -1,26 +1,39 @@
-Rem das Oeffnen von HLP-Dateien ermoeglichen, Administrator-Rechte erforderlich
-Rem
+@echo off
+for /F "usebackq tokens=4 delims=. " %%i IN (`ver`) DO (set OSVersion=%%i)
+if %OSVersion%==10 goto Windows10
+echo.
+echo Zur Installation von Winhlp32 wird jetzt die Microsoft-Download-Seite ge”ffnet.
+echo Laden Sie dort das Update herunter und installieren Sie es.
+echo.
+pause
+start https://support.microsoft.com/kb/917607
+exit /b
+
+:Windows10
+echo.
+echo Script zum Aktivieren der HLP-Untersttzung durch Windows. 
+echo Administrator-Rechte sind erforderlich!
+echo.
+pause
 Call :REDIRECT %* 1>"%TEMP%\Setup_WinHelp32.Out" 2>"%TEMP%\Setup_WinHelp32.err"
 @echo off
 echo.
 if errorlevel 9 goto error
 echo Fertig!
+echo.
+pause
 Exit /B
 
 :error
 echo Fehler beim Download!
+echo.
+pause
 Exit /B
 
 :REDIRECT
+@echo on
 Rem %CMDCMDLINE%
 Rem %DATE% %TIME%
-for /F "usebackq tokens=4 delims=. " %%i IN (`ver`) DO (set OSVersion=%%i)
-if %OSVersion%==10 goto Windows10
-
-start https://support.microsoft.com/kb/917607
-exit /b
-
-:Windows10
 set arch=x64
 if %PROCESSOR_ARCHITECTURE%==x86 set arch=x86
 for /f "tokens=3" %%a in ('reg.exe QUERY "HKCU\Control Panel\International" /v LocaleName ') do set LocaleName=%%a
@@ -45,3 +58,4 @@ copy winhlp32.exe %SystemRoot%\winhlp32.exe
 cd ..\..
 rd /s /q msu_unpacked
 exit /b
+

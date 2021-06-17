@@ -4,7 +4,7 @@
 ; im Explorer einen Rechtsklick darauf und klicken Sie "Installieren".
 
 [Version]
-AdvancedINF = 2.5, "Die benÃ¶tigte Version von 'ADVPACK.DLL' ist nicht verfÃ¼gbar! Die Installation wird abgebrochen."
+AdvancedINF = 2.5, "Die benötigte Version von 'ADVPACK.DLL' ist nicht verfügbar! Die Installation wird abgebrochen."
 DriverVer   = 12/31/2020
 Provider    = "CS"
 Signature   = "$Windows NT$"
@@ -13,7 +13,6 @@ Signature   = "$Windows NT$"
 Product="Hamster" 
 ver="2.1.0.1540"
 dlsite=https://hamsterclassic.github.io/hamster-classic
-dlpath=/
 archiv=hamster2101540.cab
 Uninstall="Software\Microsoft\Windows\CurrentVersion\Uninstall\"
 Uninstall64="Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\"
@@ -34,7 +33,7 @@ CheckAdminRights=1
 AddReg=Install.AddReg.prereg,Install.64.AddReg.prereg
 CheckAdminRights=1
 
-[Install.86.System]   ; Einsprungpunkt fÃ¼r 2.Durchlauf per runonce/advpack.dll
+[Install.86.System]   ; Einsprungpunkt für 2.Durchlauf per runonce/advpack.dll
 DelFiles           = Files.Pnf
 CheckAdminRights   = 1
 SmartReboot        = N
@@ -42,11 +41,12 @@ CustomDestination  = Install.86.System.Custom
 Copyfiles          = Files.data,Files.inf,Files.program
 AddReg             = Install.AddReg
 BeginPrompt        = InstallBegin
-ProfileItems       = lnk.desktop,lnk.help,lnk.autostart
+ProfileItems       = lnk.desktop,lnk.help,lnk.autostart,lnk.winhelp32
+UpdateInis         = UpdateInis
 EndPrompt          = InstallEnd
 RunPostSetupCommands = Install.System.PostSetup
 
-[Install.64.System]   ;Einsprungpunkt fÃ¼r 2.Durchlauf per runonce/advpack.dll
+[Install.64.System]   ;Einsprungpunkt für 2.Durchlauf per runonce/advpack.dll
 DelFiles           = Files.Pnf
 CheckAdminRights   = 1
 SmartReboot        = N
@@ -54,7 +54,8 @@ CustomDestination  = Install.64.System.Custom
 Copyfiles          = Files.data,Files.inf,Files.program
 AddReg             = Install.AddReg
 BeginPrompt        = InstallBegin
-ProfileItems       = lnk.desktop,lnk.help,lnk.autostart
+ProfileItems       = lnk.desktop,lnk.help,lnk.autostart,lnk.winhelp32
+UpdateInis         = UpdateInis
 EndPrompt          = InstallEnd
 RunPostSetupCommands = Install.System.PostSetup
 
@@ -77,7 +78,7 @@ Prompt="%Product% %ver% wurde installiert."
 
 [RemoveBegin]
 Title="%Product% Setup"
-Prompt="%Product% wird deinstalliert. Programm- und Datenordner werden gelÃ¶scht. Diese dÃ¼rfen dafÃ¼r nicht in Benutzung sein! Sind Sie sicher?"
+Prompt="%Product% wird deinstalliert. Programm- und Datenordner werden gelöscht. Diese dürfen dafür nicht in Benutzung sein! Sind Sie sicher?"
 ButtonType=YESNO
 
 [RemoveEnd] 
@@ -92,6 +93,7 @@ HashInfo.txt
 ReadMe.txt
 openssl.exe
 OpenSSL License.txt
+WinHlpUpd.cmd
 
 [Files.data]
 Changes_de.txt
@@ -159,9 +161,6 @@ ReadMe.txt,ReadMe.data
 Root-Zertifikate aktualisieren.hsc
 Scriptexamples.zip
 
-[Files.data.security]
-"O:AUG:AUD:P(A;;GA;;;AU)"
-
 [Files.desktop]
 Hamster.lnk
 Hamster Hilfe.lnk
@@ -186,6 +185,7 @@ HashInfo.txt=1
 ReadMe.txt=1
 openssl.exe=1
 OpenSSL License.txt=1
+WinHlpUpd.cmd=1
 Hamster-Setup.inf=1
 Changes_de.txt=1
 Changes_en.txt=1
@@ -255,7 +255,7 @@ Scriptexamples.zip=1
 
 [Install.86.System.Custom]
 49000=install.dir.program,1
-49001=install.dir.data,65  ; 4 = ohne RÃ¼ckfrage
+49001=install.dir.data,65  ; 4 = ohne Rückfrage
 
 [Install.64.System.Custom]
 49000=install.64.dir.program,1
@@ -272,8 +272,8 @@ HKLM,%Uninstall%%Product%,InstallLocation,"Soll %Product% in den vorhandenen Pro
 HKLM,nul,,"Wohin sollen die %Product% Programm-Dateien installiert werden? Der Ordner ""%16426%\%Product%"" wird empfohlen.","%16426%\%Product%"
 
 [install.dir.data]
-HKLM,%Uninstall64%%Product%,DataDir,"Soll der bisherige Ordner fÃ¼r die Programmdaten beibehalten werden? (Der empfohlene Ordner dafÃ¼r ist ""%16419%\%Product%"").","%16419%\%Product%"
-HKLM,%Uninstall%%Product%,DataDir,"Soll der bisherige Ordner fÃ¼r die Programmdaten beibehalten werden? (Der empfohlene Ordner dafÃ¼r ist ""%16419%\%Product%"").","%16419%\%Product%"
+HKLM,%Uninstall64%%Product%,DataDir,"Soll der bisherige Ordner für die Programmdaten beibehalten werden? (Der empfohlene Ordner dafür ist ""%16419%\%Product%"").","%16419%\%Product%"
+HKLM,%Uninstall%%Product%,DataDir,"Soll der bisherige Ordner für die Programmdaten beibehalten werden? (Der empfohlene Ordner dafür ist ""%16419%\%Product%"").","%16419%\%Product%"
 HKCU,nul,,"Wo soll %Product% die Programmdaten speichern? Empfohlen: ""%16419%\%Product%""","%16419%\%Product%"
 
 [DestinationDirs]
@@ -284,8 +284,10 @@ Files.autostart=16408
 Files.inf=17
 Files.pnf=17
 
+[UpdateInis]
+%49000%\%product%.ini,Directories,,Main=%49001%
+
 [Install.AddReg.prereg]
-HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Download (4MB)",0,"%11%\certutil.exe -urlcache -split -f %dlsite%%dlpath%%archiv% ""%01%\%archiv%"""
 
 [Install.86.AddReg.prereg]
 HKLM,"Software\Microsoft\Windows\CurrentVersion\RunOnce\Setup","%product% Installation",0,"%11%\RUNDLL32.EXE %11%\ADVPACK.DLL,LaunchINFSection ""%01%\%product%-Setup.INF"",Install.86.System"
@@ -310,8 +312,6 @@ HKLM,%Uninstall%%Product%,UninstallString,16384,"%11%\RUNDLL32.EXE %11%\ADVPACK.
 HKLM,SOFTWARE\Microsoft\WinHelp,AllowProgrammaticMacros,81921,1
 
 [Install.System.PostSetup]
-"%11%\Cmd.Exe /C echo [Directories] > ""%49000%\%product%.ini"""
-"%11%\Cmd.Exe /C echo Main=%49001% >> ""%49000%\%product%.ini"""
 "%11%\Cmd.exe /c md ""%49001%\Logs"""          ; erste Logs landen sonst im falschen Vrz.
 "%11%\icacls.exe ""%49001%"" /grant Benutzer:(OI)(CI)F /t"
 """%49000%\%product%.exe"" /regserver"         ; einmaliger Aufruf als Admin notwendig f.OLE/COM
@@ -350,4 +350,10 @@ CmdLine="49000",,%product%-Hilfe.pdf
 Name=%Product%,8,24
 WorkingDir="49000"
 CmdLine="49000",,%product%.exe
+
+[lnk.winhelp32]
+Name=WinHlp32.exe installieren,8,25
+WorkingDir="49000"
+CmdLine="49000",,WinHlpUpd.cmd
+
 
