@@ -5,15 +5,15 @@
 
 [Version]
 AdvancedINF = 2.5, "Die benötigte Version von 'ADVPACK.DLL' ist nicht verfügbar! Die Installation wird abgebrochen."
-DriverVer   = 12/31/2020
+DriverVer   = 6/30/2021
 Provider    = "CS"
 Signature   = "$Windows NT$"
 
 [Strings] 
 Product="Hamster" 
-ver="2.1.0.1540"
+ver="2.1.0.1542"
 dlsite=https://hamsterclassic.github.io/hamster-classic
-archiv=hamster2101540.cab
+archiv=hamster2101542.cab
 Uninstall="Software\Microsoft\Windows\CurrentVersion\Uninstall\"
 Uninstall64="Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\"
 
