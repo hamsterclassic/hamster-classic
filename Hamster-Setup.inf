@@ -1,19 +1,19 @@
-; Installation von Hamster Mail- und Newsserver
+ Installation von Hamster Mail- und Newsserver
 ;
 ; Speichern Sie diese Datei unter dem Namen Hamster-Setup.inf ab, machen Sie
 ; im Explorer einen Rechtsklick darauf und klicken Sie "Installieren".
 
 [Version]
 AdvancedINF = 2.5, "Die benötigte Version von 'ADVPACK.DLL' ist nicht verfügbar! Die Installation wird abgebrochen."
-DriverVer   = 6/30/2021
+DriverVer   = 30/5/2022
 Provider    = "CS"
 Signature   = "$Windows NT$"
 
 [Strings] 
 Product="Hamster" 
-ver="2.1.0.1542"
+ver="2.1.0.1546"
 dlsite=https://hamsterclassic.github.io/hamster-classic
-archiv=hamster2101542.cab
+archiv=hamster2101546.cab
 Uninstall="Software\Microsoft\Windows\CurrentVersion\Uninstall\"
 Uninstall64="Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\"
 
@@ -41,7 +41,7 @@ CustomDestination  = Install.86.System.Custom
 Copyfiles          = Files.data,Files.inf,Files.program
 AddReg             = Install.AddReg
 BeginPrompt        = InstallBegin
-ProfileItems       = lnk.desktop,lnk.help,lnk.autostart,lnk.winhelp32
+ProfileItems       = lnk.desktop,lnk.autostart
 UpdateInis         = UpdateInis
 EndPrompt          = InstallEnd
 RunPostSetupCommands = Install.System.PostSetup
@@ -54,7 +54,7 @@ CustomDestination  = Install.64.System.Custom
 Copyfiles          = Files.data,Files.inf,Files.program
 AddReg             = Install.AddReg
 BeginPrompt        = InstallBegin
-ProfileItems       = lnk.desktop,lnk.help,lnk.autostart,lnk.winhelp32
+ProfileItems       = lnk.desktop,lnk.autostart
 UpdateInis         = UpdateInis
 EndPrompt          = InstallEnd
 RunPostSetupCommands = Install.System.PostSetup
@@ -74,7 +74,7 @@ DelFiles             = Files.program,Files.data,Files.desktop,Files.autostart
 Title="%Product% %ver% Setup"
 
 [InstallEnd] 
-Prompt="%Product% %ver% wurde installiert."
+Prompt="%Product% %ver% wurde installiert. Weitere Informationen erhalten Sie in der Hamster-Hilfe (F1)."
 
 [RemoveBegin]
 Title="%Product% Setup"
@@ -93,7 +93,6 @@ HashInfo.txt
 ReadMe.txt
 openssl.exe
 OpenSSL License.txt
-WinHlpUpd.cmd
 
 [Files.data]
 Changes_de.txt
@@ -143,13 +142,10 @@ cs_windows-865_unicode.cnv
 cs_windows-866_unicode.cnv
 cs_windows-869_unicode.cnv
 cs_windows-874_unicode.cnv
-hamster.ini
-hamster_de.cnt
+hamster.ini,,,32
 hamster_de.dat
-hamster_de.hlp
-Hamster_en.cnt
+hamster_de.chm
 hamster_en.dat
-Hamster_en.hlp
 hamster_sr.dat
 hstrings.hsm
 htime.hsm
@@ -157,7 +153,6 @@ kHighLi.ini.example
 MAlias.hst
 RootCA.pem
 PCRE_LICENCE.txt
-ReadMe.txt,ReadMe.data
 Root-Zertifikate aktualisieren.hsc
 Scriptexamples.zip
 
@@ -185,7 +180,6 @@ HashInfo.txt=1
 ReadMe.txt=1
 openssl.exe=1
 OpenSSL License.txt=1
-WinHlpUpd.cmd=1
 Hamster-Setup.inf=1
 Changes_de.txt=1
 Changes_en.txt=1
@@ -236,12 +230,9 @@ cs_windows-869_unicode.cnv=1
 cs_windows-874_unicode.cnv=1
 hamster.ini=1
 Hamster-Hilfe.pdf=1
-Hamster_de.cnt=1
 hamster_de.dat=1
-HAMSTER_DE.HLP=1
-Hamster_en.cnt=1
+HAMSTER_DE.CHM=1
 hamster_en.dat=1
-Hamster_en.hlp=1
 HAMSTER_sr.dat=1
 hstrings.hsm=1
 htime.hsm=1
@@ -249,7 +240,6 @@ kHighLi.ini.example=1
 MAlias.hst=1
 RootCA.pem=1
 PCRE_LICENCE.txt=1
-ReadMe.data=1
 Root-Zertifikate aktualisieren.hsc=1
 Scriptexamples.zip=1
 
@@ -316,7 +306,6 @@ HKLM,SOFTWARE\Microsoft\WinHelp,AllowProgrammaticMacros,81921,1
 "%11%\icacls.exe ""%49001%"" /grant Benutzer:(OI)(CI)F /t"
 """%49000%\%product%.exe"" /regserver"         ; einmaliger Aufruf als Admin notwendig f.OLE/COM
 "%11%\Cmd.exe /c erase ""%49001%\Logs\*.log""" ; als Admin angelegte Logs entfernen
-"%10%\notepad.exe ""%49001%\ReadMe.txt"""
 
 [Remove.DelReg]
 HKLM,%Uninstall%%Product%,,24576
@@ -341,19 +330,8 @@ Name=%Product%,8,25
 WorkingDir="49000"
 CmdLine="49000",,%product%.exe
 
-[lnk.help]
-Name=%Product% Hilfe,8,25
-WorkingDir="49000"
-CmdLine="49000",,%product%-Hilfe.pdf
-
 [lnk.autostart]
 Name=%Product%,8,24
 WorkingDir="49000"
 CmdLine="49000",,%product%.exe
-
-[lnk.winhelp32]
-Name=WinHlp32.exe installieren,8,25
-WorkingDir="49000"
-CmdLine="49000",,WinHlpUpd.cmd
-
 
